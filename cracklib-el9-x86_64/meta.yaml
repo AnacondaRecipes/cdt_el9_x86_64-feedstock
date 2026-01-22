@@ -1,0 +1,62 @@
+package:
+  name: cracklib-el9-x86_64
+  version: 2.9.6
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/9.5/BaseOS/x86_64/os/Packages/c/cracklib-2.9.6-27.el9.x86_64.rpm
+    sha256: 05abbfe7039c63fd1f3e9c216beec6edfda60568ee2f12e203f126dd2b618877
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.34.*
+  host:
+  run:
+    - sysroot_linux-64 2.34.*
+    - zlib
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libcrack.so.2
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libcrack.so.2.9.0
+
+about:
+  home: http://sourceforge.net/projects/cracklib/
+  license: LGPL-2.1-only  # LGPLv2+
+  license_family: LGPL
+  license_file:
+    - COPYING.LIB
+  summary: (CDT) A password-checking library
+  description: |
+    CrackLib tests passwords to determine whether they match certain
+    security-oriented characteristics, with the purpose of stopping users
+    from choosing passwords that are easy to guess. CrackLib performs
+    several tests on passwords: it tries to generate words from a username
+    and gecos entry and checks those words against the password; it checks
+    for simplistic patterns in passwords; and it checks for the password
+    in a dictionary.
+
+    CrackLib is actually a library containing a particular C function
+    which is used to check the password, as well as other C
+    functions. CrackLib is not a replacement for a passwd program; it must
+    be used in conjunction with an existing passwd program.
+
+    Install the cracklib package if you need a program to check users'
+    passwords to see if they are at least minimally secure. If you install
+    CrackLib, you will also want to install the cracklib-dicts package.
+  doc_url: http://sourceforge.net/projects/cracklib/
+  dev_url: http://sourceforge.net/projects/cracklib/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

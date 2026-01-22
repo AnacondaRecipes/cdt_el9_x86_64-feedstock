@@ -1,0 +1,52 @@
+package:
+  name: pam-devel-el9-x86_64
+  version: 1.5.1
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/9.5/AppStream/x86_64/os/Packages/p/pam-devel-1.5.1-22.el9_5.x86_64.rpm
+    sha256: d9bbc29d818f48787ea50216e21c54d69c7c16bcca599895361ef015bb70cdb6
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - pam-el9-x86_64 ==1.5.1 *_{{ build_number }}
+    - audit-libs-devel-el9-x86_64 >=3.1.5 *_{{ build_number }}
+    - libpwquality-devel-el9-x86_64 >=1.4.4 *_{{ build_number }}
+    - libselinux-devel-el9-x86_64 >=3.6 *_{{ build_number }}
+    - libtirpc-devel-el9-x86_64 >=1.3.3 *_{{ build_number }}
+    - libxcrypt-devel-el9-x86_64 >=4.4.18 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/include/security/pam_client.h
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libpam.so
+
+about:
+  home: http://www.linux-pam.org/
+  license: BSD-3-Clause or GPL-2.0-only  # BSD and GPLv2+
+  license_family: GPL2
+  license_file:
+    - gpl-2.0.txt
+    - Copyright
+  summary: (CDT) Files needed for developing PAM-aware applications and modules for PAM
+  description: |
+    PAM (Pluggable Authentication Modules) is a system security tool that
+    allows system administrators to set authentication policy without
+    having to recompile programs that handle authentication. This package
+    contains header files used for building both PAM-aware applications
+    and modules for use with the PAM system.
+  doc_url: http://www.linux-pam.org/
+  dev_url: http://www.linux-pam.org/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

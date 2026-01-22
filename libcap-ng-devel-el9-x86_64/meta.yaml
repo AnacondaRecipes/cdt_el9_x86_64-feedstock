@@ -1,0 +1,44 @@
+package:
+  name: libcap-ng-devel-el9-x86_64
+  version: 0.8.2
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/9.5/AppStream/x86_64/os/Packages/l/libcap-ng-devel-0.8.2-7.el9.x86_64.rpm
+    sha256: f92105c304b9fd5c6eb23b7925e4fcc9fa3e7259e2f75c0684a2cf150c5e1312
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+
+requirements:
+  host:
+  run:
+    - sysroot_linux-64 2.34.*
+    - libcap-ng-el9-x86_64 ==0.8.2 *_{{ build_number }}
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/include/cap-ng.h
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libcap-ng.so
+
+about:
+  home: https://people.redhat.com/sgrubb/libcap-ng/
+  license: LGPL-2.1-only  # LGPLv2+
+  license_family: LGPL
+  license_file:
+    - COPYING.LIB
+  summary: (CDT) Header files for libcap-ng library
+  description: |
+    The libcap-ng-devel package contains the files needed for developing
+    applications that need to use the libcap-ng library.
+  doc_url: https://people.redhat.com/sgrubb/libcap-ng/
+  dev_url: https://people.redhat.com/sgrubb/libcap-ng/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts
