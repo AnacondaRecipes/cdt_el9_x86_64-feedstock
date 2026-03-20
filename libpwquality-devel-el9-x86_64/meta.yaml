@@ -20,8 +20,6 @@ requirements:
   run:
     - sysroot_linux-64 2.34.*
     - libpwquality-el9-x86_64 ==1.4.4 *_{{ build_number }}
-    - cracklib-devel-el9-x86_64 >=2.9.6 *_{{ build_number }}
-    - pam-devel-el9-x86_64 >=1.5.1 *_{{ build_number }}  # [with_pam]
 
 test:
   requires:
