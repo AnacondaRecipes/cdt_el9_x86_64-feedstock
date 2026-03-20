@@ -20,6 +20,7 @@ requirements:
   run:
     - sysroot_linux-64 2.34.*
     - libselinux-el9-x86_64 ==3.6 *_{{ build_number }}
+    - libsepol-el9-x86_64 >=3.6 *_{{ build_number }}
     - libsepol-devel-el9-x86_64 >=3.6 *_{{ build_number }}
     - pcre2
 
