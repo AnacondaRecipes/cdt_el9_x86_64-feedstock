@@ -1,0 +1,52 @@
+package:
+  name: audit-libs-el9-x86_64
+  version: 3.1.5
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/9.5/BaseOS/x86_64/os/Packages/a/audit-libs-3.1.5-1.el9.x86_64.rpm
+    sha256: c8a39f0bef22e329a34ed7b555dd95d85bcfd0b21149f8eb0c7f30d924e14b34
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.34.*
+  host:
+  run:
+    - sysroot_linux-64 2.34.*
+    - libcap-ng-el9-x86_64 >=0.8.2 *_{{ build_number }}
+
+test:
+  commands:
+    - test ! -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libaudit.so
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libaudit.so.1
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libaudit.so.1.0.0
+    - test ! -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libauparse.so
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libauparse.so.0
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib64/libauparse.so.0.0.0
+
+about:
+  home: http://people.redhat.com/sgrubb/audit/
+  license: LGPL-2.1-only  # LGPLv2+
+  license_family: LGPL
+  license_file:
+    - lgpl-2.1.txt
+  summary: (CDT) Dynamic library for libaudit
+  description: |
+    The audit-libs package contains the dynamic libraries needed for
+    applications to use the audit framework.
+  doc_url: http://people.redhat.com/sgrubb/audit/
+  dev_url: http://people.redhat.com/sgrubb/audit/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts

@@ -1,0 +1,58 @@
+package:
+  name: java-1.8.0-openjdk-el9-x86_64
+  version: 1.8.0.452b9
+
+source:
+  - url: https://download.rockylinux.org/vault/rocky/9.5/AppStream/x86_64/os/Packages/j/java-1.8.0-openjdk-1.8.0.452.b09-2.el9.x86_64.rpm
+    sha256: 088e45f710560ff5d335ed4f176bbf47164a235618de4f8805a4818b893ac836
+    no_hoist: true
+    folder: binary
+
+build:
+  skip: True  # [not (linux and x86_64)]
+  number: {{ build_number }}
+  noarch: generic
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  build:
+    - sysroot_linux-64 2.34.*
+  host:
+    - ca-certificates
+    - alsa-lib
+    - xorg-libx11
+    - xorg-libxext
+    - xorg-libxi
+    - xorg-libxrender
+    - xorg-libxtst
+  run:
+    - sysroot_linux-64 2.34.*
+    - alsa-lib
+    - ca-certificates
+    - fontconfig
+    - java-1.8.0-openjdk-headless-el9-x86_64 ==1.8.0.452b9 *_{{ build_number }}
+    - xorg-libxcomposite
+    - xorg-libx11
+    - xorg-libxext
+    - xorg-libxi
+    - xorg-libxrender
+    - xorg-libxtst
+
+test:
+  commands:
+    - test -f ${PREFIX}/x86_64-conda_el9-linux-gnu/sysroot/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.452.b09-2.el9.x86_64/jre/lib/amd64/libjawt.so
+
+about:
+  home: http://openjdk.java.net/
+  license: ASL 1.1 and ASL 2.0 and BSD and BSD with advertising and GPL+ and GPLv2 and GPLv2 with exceptions and IJG and LGPLv2+ and MIT and MPLv2.0 and Public Domain and W3C and zlib
+  license_family: Other
+  summary: (CDT) OpenJDK 8 Runtime Environment
+  description: |
+    The OpenJDK 8 runtime environment.
+  doc_url: http://openjdk.java.net/
+  dev_url: http://openjdk.java.net/
+
+extra:
+  recipe-maintainers:
+    - conda-forge/help-cdts
